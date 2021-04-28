@@ -1,0 +1,3 @@
+[submodule "src/jabcode"]
+	path = src/jabcode
+	url = https://github.com/E-Receipter/jabcode
