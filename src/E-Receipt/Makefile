@@ -19,7 +19,7 @@ $(OBJECTS): %.o: %.c
 	$(CC) -c -I. -I./include -I../jabcode/src/jabcode/include $(CFLAGS) $< -o $@
 
 test: $(TARGET)
-	$(CC) $(TEST_SOURCE) -I. -I./include -I../jabcode/src/jabcode/include $(CFLAGS)  -L./build -lRG -o $(TEST_TARGET)
+	$(CC) $(TEST_SOURCE) -I. -I./include -I../jabcode/src/jabcode/include $(CFLAGS) -L./build -lRG -L../jabcode/src/jabcode/build -ljabcode -lpng16 -lz -ltiff -lm -o $(TEST_TARGET)
 	$(TEST_TARGET)
 
 clean:

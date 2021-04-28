@@ -1,4 +1,4 @@
-jabcode: jabcode/src/Makefile
+jabcode-lib: jabcode/src/Makefile
 	make --directory=jabcode/src/
-E-Receipt: E-Receipt/Makefile
+E-Receipt-lib: E-Receipt/Makefile
 	make --directory=E-Receipt/

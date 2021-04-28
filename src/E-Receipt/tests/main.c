@@ -11,8 +11,20 @@ int main(){
     jab_data* a = (jab_data*) malloc(sizeof(jab_data) + 10);
     a->length = 10;
     strcpy(a->data,"qwertyuio");
-    RG_compress(a);
+    jab_bitmap* bitmap =  RG_encode(a);
+    if(!saveImage(bitmap, "test.png"))
+	{
+		printf("Saving png image failed\n");
+        return 1;
+	}
+
+    jab_decode* decoded = RG_decode(bitmap);
+    if(!decoded){
+        printf("decode failed\n");
+        return 1;
+    }
+    printf("status: %i\n",decoded->decode_status);
+    printf("data:%s\n",decoded->data->data);
     free(a);
-    printf("hello world\n");
     return 0;
 }
