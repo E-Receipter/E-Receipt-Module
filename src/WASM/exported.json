@@ -1,11 +1,12 @@
 [
-    "_createJabBitmap",
-    "_getPixelArray",
-    "_getPixelWidth",
-    "_getPixelLength",
-    "_decode",
-    "_getData",
-    "_getDataLength",
-    "_getTrimmed",
+    "_JabBitmap_create",
+    "_JabBitmap_getPixelArray",
+    "_JabBitmap_getPixelWidth",
+    "_JabBitmap_getPixelLength",
+    "_RG_decode",
+    "_JabDecode_getStatus",
+    "_JabDecode_getData",
+    "_JabData_getData",
+    "_JabData_getDataLength",
     "_free"
 ]

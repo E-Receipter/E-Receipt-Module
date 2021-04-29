@@ -9,7 +9,7 @@
       <script src="build/jabcode.js"></script>
       <script src="js/wrapper.js"></script>
       <script>
-      let imgSrc= "../src/test.png";
+      let imgSrc= "test/test.png";
       var canvas = document.getElementById("canvas")
       var ctx = canvas.getContext("2d");
       var image = new Image();
@@ -26,8 +26,8 @@
       }
       function loadBitMap(ImageData){
          data = new Uint8Array(ImageData.data.buffer);
-         bitmap_ptr = Module._createJabBitmap(canvas.width,canvas.height)
-         pixel_array_ptr = Module._getPixelArray(bitmap_ptr)
+         bitmap_ptr = Module._JabBitmap_create(canvas.width,canvas.height)
+         pixel_array_ptr = Module._JabBitmap_getPixelArray(bitmap_ptr)
          pixel_array = new Uint8Array(Module.HEAPU8.buffer,pixel_array_ptr,data.byteLength)
          pixel_array.set(data)
          return bitmap_ptr
@@ -37,8 +37,7 @@
          // bitmap_ptr = loadBitMap(imgData)
          //return Module._decode(bitmap_ptr)
          decoder = new JABCodeDecoder(Module,canvas.width,canvas.height)
-         decoder.image = imgData
-         value = decoder.decode()
+         value = decoder.decode(imgData)
          decoder.clean()
          return value
       }

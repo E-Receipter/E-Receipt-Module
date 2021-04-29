@@ -1,6 +1,7 @@
 /**
  * @brief JABCode decoded output
 **/
+#include "jabcode.h"
 typedef struct {
     jab_int32 decode_status;
     jab_data* data;

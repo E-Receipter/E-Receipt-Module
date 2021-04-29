@@ -64,8 +64,7 @@ jab_bitmap* RG_encode(jab_data* data){
     jab_encode* enc = createEncode(color_number,symbol_number);
     if(enc == NULL)
     {
-		printf("Creating encode parameter failed");
-        return 1;
+        return NULL;
     }
     if(module_size > 0)
     {
@@ -90,8 +89,7 @@ jab_bitmap* RG_encode(jab_data* data){
 	}
     if(generateJABCode(enc, data) != 0)
 	{
-		printf("Creating jab code failed");
-		return 1;
+		return NULL;
 	}
     return enc->bitmap;
 }
