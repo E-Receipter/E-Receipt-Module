@@ -6,6 +6,7 @@ Encryption and Decryption functions
 
 #include "jabcode.h"
 #include "encryption.h"
+#include "utils.h"
 
 /**
 * @brief encrypt data using given key
@@ -15,7 +16,7 @@ Encryption and Decryption functions
 **/
 jab_data* RG_encrypt(jab_data* key,jab_data* data){
     // Encrypt enc_data -> data using enc_data -> key
-    return data;
+    return JabData_create(data->data,data->length);
 }
 
 /**
@@ -25,7 +26,7 @@ jab_data* RG_encrypt(jab_data* key,jab_data* data){
 * @return the decrypted data
 **/
 jab_data* RG_decrypt(jab_data* key,jab_data* data){
-    return data;
+    return JabData_create(data->data,data->length);
 }
 
 /**
@@ -34,5 +35,5 @@ jab_data* RG_decrypt(jab_data* key,jab_data* data){
 * @return the signature
 **/
 jab_data* RG_sign(jab_data* data){
-    return data;
+    return JabData_create(data->data,data->length);
 }

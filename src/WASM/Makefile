@@ -13,7 +13,7 @@ $(TARGET): $(OBJECTS) $(ER_OBJECTS) bindings.c
 	$(CC) -I../jabcode/src/jabcode/ -I../jabcode/src/jabcode/include -I../E-Receipt/ $(CFLAGS) -s WASM=1 -s "EXPORTED_FUNCTIONS=@exported.json" $(OBJECTS) $(ER_OBJECTS) bindings.c -o $@
 
 $(OBJECTS): objects/%.o: ../jabcode/src/jabcode/%.c
-	$(CC) -c -I../jabcode/src/jabcode/ -I../jabcode/src/jabcode/include -I../E-Receipt/ $(CFLAGS) $< -o $@
+	$(CC) -c -I../jabcode/src/jabcode/ -I../jabcode/src/jabcode/include $(CFLAGS) $< -o $@
 
 $(ER_OBJECTS): objects/%.o: ../E-Receipt/%.c
 	$(CC) -c -I../jabcode/src/jabcode/ -I../jabcode/src/jabcode/include -I../E-Receipt/ $(CFLAGS) $< -o $@

@@ -1,0 +1,4 @@
+*.txt
+*.png
+!key.txt
+!data.txt
