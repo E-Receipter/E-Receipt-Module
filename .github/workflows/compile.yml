@@ -10,17 +10,11 @@ jobs:
             submodules: 'recursive'
 
         - name: Setup emsdk
-          uses: mymindstorm/setup-emsdk@v9
-          with:
-            # Make sure to set a version number!
-            version: 1.38.40
-            # This is the name of the cache folder.
-            # The cache folder will be placed in the build directory,
-            #  so make sure it doesn't conflict with anything!
-            actions-cache-folder: 'emsdk-cache'
-
-        - name: Verify
-          run: emcc -v
+          run: git clone https://github.com/emscripten-core/emsdk.git &&
+          cd emsdk &&
+          ./emsdk install latest &&
+          ./emsdk activate latest &&
+          source ./emsdk_env.sh
         
         - name: Install dependencies
           run: sudo apt-get install -y libpng16-16 libtiff-dev libz-dev
