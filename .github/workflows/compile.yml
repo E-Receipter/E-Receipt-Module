@@ -21,20 +21,10 @@ jobs:
 
         - name: Verify
           run: emcc -v
-        
+
         - name: Install dependencies
           run: sudo apt-get install -y libpng16-16 libtiff-dev libz-dev
-        
-        - name: compile WASM
-          working-directory: ./src/WASM
-          run: make
-        
-        - name: Deploy 🚀
-          uses: JamesIves/github-pages-deploy-action@4.1.3
-          with:
-            branch: gh-pages # The branch the action should deploy to.
-            folder: src/WASM/gh-pages # The folder the action should deploy.
-        
+
         - name: Cache objects
           uses: actions/cache@v2
           with:
@@ -42,3 +32,13 @@ jobs:
               src/WASM/objects
               src/WASM/gh-pages
             key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
+
+        - name: compile WASM
+          working-directory: ./src/WASM
+          run: make
+
+        - name: Deploy 🚀
+          uses: JamesIves/github-pages-deploy-action@4.1.3
+          with:
+            branch: gh-pages # The branch the action should deploy to.
+            folder: src/WASM/gh-pages # The folder the action should deploy.
