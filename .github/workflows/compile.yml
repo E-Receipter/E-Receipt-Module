@@ -1,4 +1,4 @@
-name: GitHub Actions Demo
+name: Compile and Deploy
 on: [push]
 jobs:
   Make-E-Receipt-WASM:
@@ -21,6 +21,9 @@ jobs:
 
         - name: Verify
           run: emcc -v
+        
+        - name: Install dependencies
+          run: apt-get install -y libpng16-16 libtiff-dev libz-dev
         
         - name: compile WASM
           working-directory: ./src/WASM
