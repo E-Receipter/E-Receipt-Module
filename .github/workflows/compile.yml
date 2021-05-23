@@ -2,7 +2,7 @@ name: Compile and Deploy
 on: [push]
 jobs:
   Make-E-Receipt-WASM:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
         - name: Checkout
           uses: actions/checkout@v2.3.1
@@ -10,13 +10,17 @@ jobs:
             submodules: 'recursive'
 
         - name: Setup emsdk
-          run: |
-            git clone https://github.com/emscripten-core/emsdk.git
-            cd emsdk
-            sudo ./emsdk install latest
-            sudo ./emsdk activate latest
-            emcc -v
-            cd ..
+          uses: mymindstorm/setup-emsdk@v9
+          with:
+            # Make sure to set a version number!
+            version: 1.38.40
+            # This is the name of the cache folder.
+            # The cache folder will be placed in the build directory,
+            #  so make sure it doesn't conflict with anything!
+            actions-cache-folder: 'emsdk-cache'
+
+        - name: Verify
+          run: emcc -v
         
         - name: Install dependencies
           run: sudo apt-get install -y libpng16-16 libtiff-dev libz-dev
