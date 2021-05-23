@@ -27,4 +27,10 @@ jobs:
         
         - name: compile WASM
           working-directory: ./src/WASM
-          run: ls && make
+          run: make
+        
+        - name: Deploy 🚀
+          uses: JamesIves/github-pages-deploy-action@4.1.3
+          with:
+            branch: gh-pages # The branch the action should deploy to.
+            folder: src/WASM/build # The folder the action should deploy.
