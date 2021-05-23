@@ -28,7 +28,6 @@ class JABCodeDecoder{
     decode(value){
         this.setImage(value)
         this.decodePtr = this.module._RG_decode(this.bitmapPtr)
-        console.log(this.module._JabDecode_getStatus(this.decodePtr))
         this.dataPtr = this.module._JabDecode_getData(this.decodePtr)
         this.dataArrPtr = this.module._JabData_getData(this.dataPtr)
         this.dataLength = this.module._JabData_getDataLength(this.dataPtr)
