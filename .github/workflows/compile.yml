@@ -2,7 +2,7 @@ name: WASM Compile & Deploy
 on: [push]
 jobs:
   Make-E-Receipt-WASM:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
         - name: Checkout
           uses: actions/checkout@v2.3.1
@@ -24,14 +24,6 @@ jobs:
 
         - name: Install dependencies
           run: sudo apt-get install -y libpng16-16 libtiff-dev libz-dev
-
-        - name: Cache objects
-          uses: actions/cache@v2
-          with:
-            path: |
-              src/WASM/objects
-              src/WASM/gh-pages
-            key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
 
         - name: compile WASM
           working-directory: ./src/WASM
