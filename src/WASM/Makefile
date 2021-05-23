@@ -3,7 +3,7 @@ CC 	= $(PREFIX)emcc
 LCC = $(PREFIX)gcc
 CFLAGS	= -O2 -std=c11
 
-TARGET = gh-pages/build/jabcode.js
+TARGET = ../gh-pages/build/jabcode.js
 
 OBJECTS := $(patsubst ../jabcode/src/jabcode/%.c,objects/%.o,$(wildcard ../jabcode/src/jabcode/*.c))
 LOBJECTS := $(patsubst ../jabcode/src/jabcode/%.c,../jabcode/src/jabcode/%.o,$(wildcard ../jabcode/src/jabcode/*.c))
