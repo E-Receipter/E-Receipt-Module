@@ -1,0 +1,46 @@
+<!doctype html> 
+<html>
+   <head> 
+      <meta charset="utf-8">
+   </head>
+   <body>
+      <canvas id="canvas"></canvas>
+      <div id="textcontent"></div>
+      <script src="build/jabcode.js"></script>
+      <script src="js/wrapper.js"></script>
+      <script>
+      let imgSrc= "test/test.png";
+      var canvas = document.getElementById("canvas")
+      var ctx = canvas.getContext("2d");
+      var image = new Image();
+      image.onload = loadImage;
+      image.src = imgSrc;
+      function loadImage(){
+         scaling = 0.5;
+         canvas.width = this.naturalWidth*scaling;
+         canvas.height = this.naturalHeight*scaling;
+         ctx.drawImage(this, 0, 0, canvas.width, canvas.height);
+      }
+      function getImage(){
+         return ctx.getImageData(0,0,canvas.width,canvas.height);
+      }
+      function loadBitMap(ImageData){
+         data = new Uint8Array(ImageData.data.buffer);
+         bitmap_ptr = Module._JabBitmap_create(canvas.width,canvas.height)
+         pixel_array_ptr = Module._JabBitmap_getPixelArray(bitmap_ptr)
+         pixel_array = new Uint8Array(Module.HEAPU8.buffer,pixel_array_ptr,data.byteLength)
+         pixel_array.set(data)
+         return bitmap_ptr
+      }
+      function decode(){
+         imgData = getImage()
+         // bitmap_ptr = loadBitMap(imgData)
+         //return Module._decode(bitmap_ptr)
+         decoder = new JABCodeDecoder(Module,canvas.width,canvas.height)
+         value = decoder.decode(imgData)
+         decoder.clean()
+         return value
+      }
+      </script>
+   </body>
+</html>
