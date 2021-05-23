@@ -34,3 +34,11 @@ jobs:
           with:
             branch: gh-pages # The branch the action should deploy to.
             folder: src/WASM/gh-pages # The folder the action should deploy.
+        
+        - name: Cache objects
+          uses: actions/cache@v2
+          with:
+            path: |
+              src/WASM/objects
+              src/WASM/gh-pages
+            key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
