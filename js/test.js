@@ -68,11 +68,9 @@ function createTestList(){
 }
 
 async function loadModule(){
-    const req = await fetch(WASM_MODULE);
-    const buffer = await req.arrayBuffer();
     window.module = await self.Module(
         {
-            wasmBinary: buffer,
+            wasm: fetch(WASM_MODULE),
         }
     )
 }
