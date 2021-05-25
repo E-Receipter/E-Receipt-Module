@@ -1,7 +1,7 @@
 PREFIX 	=
 CC 	= $(PREFIX)emcc
 LCC = $(PREFIX)gcc
-CFLAGS	= -O2 -std=c11
+CFLAGS	= -O3 -std=c11
 
 TARGET = ../gh-pages/build/jabcode.js
 
