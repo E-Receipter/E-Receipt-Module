@@ -1,32 +1,60 @@
 const WASM_MODULE = 'build/jabcode.wasm';
-const imgSrc = "test/test.png";
 const canvas = document.getElementById("canvas")
 const ctx = canvas.getContext("2d");
-const image = new Image();
-image.onload = loadImage;
-image.src = imgSrc;
 
-function loadImage() {
-    scaling = 0.5;
-    canvas.width = this.naturalWidth * scaling;
-    canvas.height = this.naturalHeight * scaling;
-    ctx.drawImage(this, 0, 0, canvas.width, canvas.height);
+function loadImage(url){
+    return new Promise((resolve)=>{
+        let image = new Image();
+        image.onload = ()=> {resolve(image)};
+        image.src = url;
+    })
 }
 
-function getImage() {
+async function getImage(url) {
+    const image = await loadImage(url);
+    scaling = 0.5;
+    canvas.width = image.naturalWidth * scaling;
+    canvas.height = image.naturalHeight * scaling;
+    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
     return ctx.getImageData(0, 0, canvas.width, canvas.height);
+}
+
+function protoload(url){
+    return new Promise((resolve)=>{
+        protobuf.load(url,(err,root)=>{
+            resolve(root);
+        })
+    })
 }
 
 // --------------- TESTS -------------------------
 // Test - 1 -> direct decode
 async function decode() {
-    imgData = getImage()
+    imgData = await getImage("test/test.png");
     // bitmap_ptr = loadBitMap(imgData)
     //return Module._decode(bitmap_ptr)
     decoder = new JABCodeDecoder(window.module, canvas.width, canvas.height)
     value = decoder.decode(imgData)
     decoder.clean()
     return await new TextDecoder('utf-8').decode(value)
+}
+
+async function protobuf_test() {
+    out = {}
+    imgData = await getImage("test/enc.png");
+    decoder = new JABCodeDecoder(window.module, canvas.width, canvas.height)
+    value = decoder.decode(imgData)
+    proto = await protoload('main.proto');
+    ebillType = proto.lookupType("EncryptedBill");
+    ebill = ebillType.toObject(ebillType.decode(value));
+    out.shopId = ebill.shopId;
+    billType = proto.lookupType("Bill");
+    bill = billType.toObject(billType.decode(ebill.encryptedBill));
+    out = {
+        ...out,...bill
+    }
+    decoder.clean()
+    return out;
 }
 
 async function test() {
@@ -40,6 +68,7 @@ async function test() {
 const tests = [
     decode,
     test,
+    protobuf_test,
 ]
 
 function getMarkerId(name){
