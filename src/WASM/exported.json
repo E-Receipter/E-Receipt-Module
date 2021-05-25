@@ -8,5 +8,6 @@
     "_JabDecode_getData",
     "_JabData_getData",
     "_JabData_getDataLength",
-    "_free"
+    "_free",
+    "_test"
 ]

@@ -1,3 +1,4 @@
+const WASM_MODULE = 'build/jabcode.wasm';
 const imgSrc = "test/test.png";
 const canvas = document.getElementById("canvas")
 const ctx = canvas.getContext("2d");
@@ -22,15 +23,23 @@ async function decode() {
     imgData = getImage()
     // bitmap_ptr = loadBitMap(imgData)
     //return Module._decode(bitmap_ptr)
-    decoder = new JABCodeDecoder(Module, canvas.width, canvas.height)
+    decoder = new JABCodeDecoder(window.module, canvas.width, canvas.height)
     value = decoder.decode(imgData)
     decoder.clean()
     return await new TextDecoder('utf-8').decode(value)
 }
 
+async function test() {
+    let a = 10;
+    let b = 20;
+    ans = window.module._test(a,b);
+    return `${a}+${b}=${ans}`;
+}
+
 // ------------------END TESTS --------------------
 const tests = [
     decode,
+    test,
 ]
 
 function getMarkerId(name){
@@ -58,7 +67,18 @@ function createTestList(){
     }
 }
 
+async function loadModule(){
+    const req = await fetch(WASM_MODULE);
+    const buffer = await req.arrayBuffer();
+    window.module = await self.Module(
+        {
+            wasmBinary: buffer,
+        }
+    )
+}
+
 async function testRunner(){
+    await loadModule();
     for(let func of tests){
         let resultValue = '';
         marker = document.getElementById(getMarkerId(func.name));
