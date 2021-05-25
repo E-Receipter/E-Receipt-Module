@@ -10,7 +10,7 @@ LOBJECTS := $(patsubst ../jabcode/src/jabcode/%.c,../jabcode/src/jabcode/%.o,$(w
 ER_OBJECTS := $(patsubst ../E-Receipt/%.c,objects/%.o,$(wildcard ../E-Receipt/*.c))
 ER_LOBJECTS := $(patsubst ../E-Receipt/%.c,../E-Receipt/%.o,$(wildcard ../E-Receipt/*.c))
 $(TARGET): $(OBJECTS) $(ER_OBJECTS) bindings.c
-	$(CC) -I../jabcode/src/jabcode/ -I../jabcode/src/jabcode/include -I../E-Receipt/ $(CFLAGS) -s WASM=1 -s "EXPORTED_FUNCTIONS=@exported.json" $(OBJECTS) $(ER_OBJECTS) bindings.c -o $@
+	$(CC) -I../jabcode/src/jabcode/ -I../jabcode/src/jabcode/include -I../E-Receipt/ $(CFLAGS) -s WASM=1 -s FETCH=1 -s "EXPORTED_FUNCTIONS=@exported.json" $(OBJECTS) $(ER_OBJECTS) bindings.c -o $@
 
 $(OBJECTS): objects/%.o: ../jabcode/src/jabcode/%.c
 	$(CC) -c -I../jabcode/src/jabcode/ -I../jabcode/src/jabcode/include $(CFLAGS) $< -o $@
