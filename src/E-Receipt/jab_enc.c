@@ -45,7 +45,12 @@ jab_int64 JabBitmap_getPixelLength(jab_bitmap* bitmap) {
 jab_decode* RG_decode(jab_bitmap *bitmap){
     jab_int32 decode_status;
 	jab_decoded_symbol symbols[MAX_SYMBOL_NUMBER];
-    jab_data* data = decodeJABCodeEx(bitmap, NORMAL_DECODE, &decode_status, symbols, MAX_SYMBOL_NUMBER);
+    jab_data* data;
+    for(int i=0;i<6;i++){
+        data = decodeJABCodeEx(bitmap, NORMAL_DECODE, &decode_status, symbols, MAX_SYMBOL_NUMBER);
+        if(data->length>0)
+            break;
+    }
     jab_decode* decoded = (jab_decode*) malloc(sizeof(jab_decode));
     decoded -> decode_status = decode_status;
     decoded -> data = data;
