@@ -4,3 +4,5 @@ test.out: main.pb.cc test.cc
 	g++ test.cc main.pb.cc `pkg-config --cflags --libs protobuf` -o test.out
 clean:
 	rm main.pb.cc
+	rm main.pb.h
+	rm test.out

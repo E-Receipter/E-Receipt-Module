@@ -1,11 +1,15 @@
 #include "main.pb.h"
+#include<chrono>
 #include<fstream>
 using namespace std;
 int main(){
+    auto date =  chrono::duration_cast< chrono::milliseconds >(
+      chrono::system_clock::now().time_since_epoch()
+    ).count();
     EncryptedBill *ebill = new EncryptedBill();
     Bill *bill = new Bill();
-    bill->set_id(1);
-    bill->set_datetime(1);
+    bill->set_billid(1);
+    bill->set_datetime(date);
     for(int i=0;i<10;i++){
         Item* a = bill->add_items();
         a->set_name("random");
