@@ -7,10 +7,9 @@ message Item {
 }
  
 message Bill {
-    int32 id = 1;
+    int32 billId = 1;
     repeated Item items = 2;
     int64 datetime = 3; //datetime - unix
-
 }
 
 message EncryptedBill {
