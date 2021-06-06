@@ -6,10 +6,9 @@ Utility functions to get/set JAB structures
 #include <stdlib.h>
 #include <string.h>
 
-jab_data* JabData_create(char* data,long length){
+jab_data* JabData_create(long length){
     jab_data* jdata = malloc(sizeof(jab_data)+length+1);
     jdata->length = length;
-    strcpy(jdata->data,data);
     return jdata;
 }
 

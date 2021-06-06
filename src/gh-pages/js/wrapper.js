@@ -21,7 +21,7 @@ class JABCodeDecoder{
         if (value instanceof Uint8Array)
             this.pixels.set(value)
         else if(value instanceof ImageData)
-            this.pixels.set(new Uint8Array(value.data.buffer))
+            this.pixels.set(new Uint8Array(value.data))
         else 
             this.pixels.set(new Uint8Array(value.buffer))
     }
@@ -38,5 +38,30 @@ class JABCodeDecoder{
         this.module._free(this.bitmapPtr)
         if('dataPtr' in this)
         this.module._free(this.dataPtr);
+    }
+}
+
+class JABCodeEncoder {
+    constructor(module){
+        this.module = module;
+    }
+    createJABData(data){
+        let dataPtr = this.module._JabData_create(data.length);
+        let arrPtr = this.module._JabData_getData(dataPtr);
+        let arr = new Uint8Array(this.module.HEAPU8.buffer,arrPtr,data.length);
+        arr.set(data);
+        return dataPtr;
+    }
+    encode(data){
+        let dataPtr= this.createJABData(data);
+        let encodeBitmapPtr = this.module._RG_encode(dataPtr);
+        if(encodeBitmapPtr){
+            const width = Number(this.module._JabBitmap_getPixelWidth(encodeBitmapPtr));
+            const length = this.module._JabBitmap_getPixelLength(encodeBitmapPtr);
+            const pixelArrPtr = this.module._JabBitmap_getPixelArray(encodeBitmapPtr);
+            const pixelArr = new Uint8ClampedArray(this.module.HEAPU8.buffer,pixelArrPtr,length*4);
+            let image = new ImageData(pixelArr,width);
+            return image;
+        }
     }
 }

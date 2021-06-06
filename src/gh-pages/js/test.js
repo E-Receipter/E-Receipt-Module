@@ -39,6 +39,24 @@ async function decode() {
     return await new TextDecoder('utf-8').decode(value)
 }
 
+async function encode(){
+    let data = new TextEncoder().encode("hello world");
+    encoder = new JABCodeEncoder(window.module);
+    imgData = encoder.encode(data);
+    if(!imgData){
+        throw Error("failed encoding");
+    }
+    decoder = new JABCodeDecoder(window.module, imgData.width,imgData.height);
+    value = decoder.decode(imgData);
+    decoder.clean();
+    decData = await new TextDecoder('utf-8').decode(value);
+    if(decData != "hello world"){
+        console.log(decData);
+        throw Error("not equal");
+    }
+    return decData
+}
+
 async function protobuf_test() {
     out = {}
     imgData = await getImage("test/enc.png");
@@ -69,6 +87,7 @@ const tests = [
     decode,
     test,
     protobuf_test,
+    encode,
 ]
 
 function getMarkerId(name){

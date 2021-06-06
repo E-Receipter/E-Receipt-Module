@@ -57,6 +57,11 @@ jab_decode* RG_decode(jab_bitmap *bitmap){
     return decoded;
 }
 
+/**
+ * @brief JABCode Bitmap encoding function
+ * @param data the data to encode in JABCode
+ * @return the encoded bitmap
+**/
 jab_bitmap* RG_encode(jab_data* data){
     jab_int32 color_number = DEFAULT_COLOR_NUMBER;
     jab_int32 symbol_number = DEFAULT_SYMBOL_NUMBER;
