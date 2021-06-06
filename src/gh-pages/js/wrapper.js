@@ -61,6 +61,7 @@ class JABCodeEncoder {
             const pixelArrPtr = this.module._JabBitmap_getPixelArray(encodeBitmapPtr);
             const pixelArr = new Uint8ClampedArray(this.module.HEAPU8.buffer,pixelArrPtr,length*4);
             let image = new ImageData(pixelArr,width);
+            this.module._free(pixelArrPtr);
             return image;
         }
     }
