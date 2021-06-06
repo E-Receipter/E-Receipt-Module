@@ -2,6 +2,7 @@
 JABCode encoding and decoding functions
 */
 #include <stdlib.h>
+#include<string.h>
 #include "jabcode.h"
 #include "jab_enc.h"
 
@@ -101,5 +102,12 @@ jab_bitmap* RG_encode(jab_data* data){
 	{
 		return NULL;
 	}
-    return enc->bitmap;
+    jab_bitmap* bitmap = JabBitmap_create(enc->bitmap->width,enc->bitmap->height);
+    long bitmapLength = bitmap->height*bitmap->width*bitmap->bits_per_pixel/8;
+    memcpy(bitmap->pixel,enc->bitmap->pixel,bitmapLength);
+    destroyEncode(enc);
+    free(symbol_positions);
+    free(symbol_versions);
+    free(symbol_ecc_levels);
+    return bitmap;
 }
