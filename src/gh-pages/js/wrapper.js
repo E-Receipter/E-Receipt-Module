@@ -53,16 +53,19 @@ class JABCodeEncoder {
         return dataPtr;
     }
     encode(data){
-        let dataPtr= this.createJABData(data);
-        let encodeBitmapPtr = this.module._RG_encode(dataPtr);
+        const dataPtr= this.createJABData(data);
+        const encodeBitmapPtr = this.module._RG_encode(dataPtr);
         if(encodeBitmapPtr){
             const width = Number(this.module._JabBitmap_getPixelWidth(encodeBitmapPtr));
             const length = this.module._JabBitmap_getPixelLength(encodeBitmapPtr);
             const pixelArrPtr = this.module._JabBitmap_getPixelArray(encodeBitmapPtr);
             const pixelArr = new Uint8ClampedArray(this.module.HEAPU8.buffer,pixelArrPtr,length*4);
             let image = new ImageData(pixelArr,width);
-            this.module._free(pixelArrPtr);
+            this.module._free(encodeBitmapPtr);
+            this.module._free(dataPtr);
             return image;
         }
+        this.module._free(encodeBitmapPtr);
+        this.module._free(dataPtr);
     }
 }
